@@ -1,8 +1,32 @@
 import {useState} from 'react';
 
-const Good = ({addToCart, img, title, doughThickness, sizes, price}) => {
+const Good = ({addToCart, img, title, dough, sizes, price}) => {
 
-    const [goodObj, setGoodObj] = useState();
+    const [goodObj, setGoodObj] = useState(
+        {
+            img,
+            title,
+            dough: dough[0],
+            sizes: sizes[0],
+            price,
+            quantity:1,
+        }
+    );
+
+    const [doughItemActive, setDoughItemActive] = useState(0);
+
+    const onClickDoughItem = (doughTitle, index) => {
+        setDoughItemActive(index)
+        setGoodObj({...goodObj, dough: doughTitle})
+    }
+
+    const [sizesItemActive, setSizesItemActive] = useState(0);
+
+    const onClickSizesItem = (size, index) => {
+        setSizesItemActive(index)
+        setGoodObj({...goodObj, sizes: size})
+    }
+
 
 
     return (
@@ -14,19 +38,27 @@ const Good = ({addToCart, img, title, doughThickness, sizes, price}) => {
             <h4 className="pizza-block__title">{title}</h4>
             <div className="pizza-block__selector">
                 <ul>
-                    {doughThickness.map((item, index) =>
-                        <li className={index === 0 ? 'active'  : ''}>{item}</li>
+                    {dough.map((doughTitle, index) =>
+                        <li 
+                            key={`${doughTitle}_${index}`}
+                            className={doughItemActive === index ? 'active'  : ''} 
+                            onClick ={() => onClickDoughItem(doughTitle, index)}
+                        >{doughTitle}</li>
                     )}
                 </ul>
                 <ul>
-                    {sizes.map((item, index) =>
-                        <li className={index === 0 ? 'active'  : ''}>{item} см.</li>
+                    {sizes.map((size, index) =>
+                        <li 
+                            key={`${size}_${index}`}
+                            className={sizesItemActive === index ? 'active'  : ''} 
+                            onClick ={() => onClickSizesItem(size, index)}
+                        >{size} см.</li>
                     )}
                 </ul>
             </div>
             <div className="pizza-block__bottom">
                 <div className="pizza-block__price">от {price} ₽</div>
-                <div className="button button--outline button--add">
+                <div className="button button--outline button--add" onClick={() => addToCart(goodObj)}>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
