@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import PropTypes from 'prop-types';
 
 const Good = ({addToCart, img, title, dough, sizes, price}) => {
 
@@ -71,7 +72,17 @@ const Good = ({addToCart, img, title, dough, sizes, price}) => {
             </div>
         </div>
     );
-  }
+}
+
+Good.propTypes = {
+    addToCart: PropTypes.func.isRequired,
+    img: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    dough: PropTypes.arrayOf(PropTypes.string).isRequired,
+    sizes: PropTypes.arrayOf(PropTypes.number).isRequired,
+    price: PropTypes.number.isRequired,
+}
   
-  export default Good;
+  
+export default Good;
   
