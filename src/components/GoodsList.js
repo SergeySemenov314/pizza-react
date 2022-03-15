@@ -1,40 +1,15 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../store/cartReducer";
 import Good from "./Good";
 
 const GoodsList = () => {
 
+    const dispatch = useDispatch();
+
     const goodsArr = useSelector(state => state.goodsReducer.goods)
 
     let addToCart = (goodObj) => {
-
-        let cartGoods = [];
-
-        const cartGoodsJSON = localStorage.getItem('cartGoods');
-
-        if(cartGoodsJSON) {
-            cartGoods = JSON.parse(cartGoodsJSON);
-            let hasCurrentGood = {status: false, index: 0};
-
-            cartGoods.forEach((good, index) => {
-                if(goodObj.title === good.title && goodObj.dough === good.dough && goodObj.sizes === good.sizes) {
-                    hasCurrentGood.status = true;
-                    hasCurrentGood.index = index;
-                }
-            });
-
-            if(hasCurrentGood.status) {
-                console.log(cartGoods[hasCurrentGood.index])
-                cartGoods[hasCurrentGood.index]['quantity']++
-            } else {
-                cartGoods.push(goodObj);
-            }
-            
-
-        } else {
-            cartGoods.push(goodObj);
-        }
-
-        localStorage.setItem('cartGoods', JSON.stringify(cartGoods));
+        dispatch(addToCart(goodObj))
     }
 
 

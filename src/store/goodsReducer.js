@@ -14,5 +14,5 @@ export default function goodsReducer (state = defaultState, action) {
     }
 }
 
-export const addGoods = (payload) => ({type: SET_GOODS, payload})
+export const setGoods = (payload) => ({type: SET_GOODS, payload})
 
