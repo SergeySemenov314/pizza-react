@@ -1,7 +1,9 @@
 import {useState} from 'react';
 import PropTypes from 'prop-types';
+import { addToCart } from "../store/cartReducer";
+import { useSelector } from 'react-redux';
 
-const Good = ({addToCart, img, title, dough, sizes, price}) => {
+const Good = ({dispatch, img, title, dough, sizes, price}) => {
 
     const [goodObj, setGoodObj] = useState(
         {
@@ -28,6 +30,17 @@ const Good = ({addToCart, img, title, dough, sizes, price}) => {
         setGoodObj({...goodObj, sizes: size})
     }
 
+    let addGoodToCart = (goodObj) => {
+        dispatch(addToCart(goodObj))
+    }
+
+    const cartGoods = useSelector(state => state.cartReducer.cartGoods)
+    const totalCount = useSelector(state => state.cartReducer.totalCount)
+    const totalPrice = useSelector(state => state.cartReducer.totalPrice)
+
+    console.log(cartGoods)
+    console.log(totalCount)
+    console.log(totalPrice)
 
 
     return (
@@ -59,7 +72,7 @@ const Good = ({addToCart, img, title, dough, sizes, price}) => {
             </div>
             <div className="pizza-block__bottom">
                 <div className="pizza-block__price">от {price} ₽</div>
-                <div className="button button--outline button--add" onClick={() => addToCart(goodObj)}>
+                <div className="button button--outline button--add" onClick={() => addGoodToCart(goodObj)}>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -75,7 +88,6 @@ const Good = ({addToCart, img, title, dough, sizes, price}) => {
 }
 
 Good.propTypes = {
-    addToCart: PropTypes.func.isRequired,
     img: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     dough: PropTypes.arrayOf(PropTypes.string).isRequired,

@@ -40,9 +40,26 @@ export default function cartReducer (state = defaultState, action) {
             localStorage.setItem('cartGoods', JSON.stringify(cartGoods));
 
 
+
+            
+            let totalCount = cartGoods.reduce(function(sum, good) {
+                return sum + good.quantity;
+            }, 0);
+
+            let totalPrice = cartGoods.reduce(function(sum, good) {
+                return sum + good.price * good.quantity;
+            }, 0);
+
+
+
+
+
+
             return {
                 ...state,
-                cartGoods: cartGoods
+                cartGoods: cartGoods,
+                totalCount: totalCount,
+                totalPrice: totalPrice,
             }
 
         default:

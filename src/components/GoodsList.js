@@ -1,18 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../store/cartReducer";
 import Good from "./Good";
 
 const GoodsList = () => {
 
     const dispatch = useDispatch();
-
     const goodsArr = useSelector(state => state.goodsReducer.goods)
-
-    let addToCart = (goodObj) => {
-        dispatch(addToCart(goodObj))
-    }
-
-
 
     return (
         <>
@@ -21,7 +13,7 @@ const GoodsList = () => {
                 {goodsArr.map((good, index) =>
                     <Good 
                         key={`${good.title}_${index}`}
-                        addToCart = {addToCart} 
+                        dispatch = {dispatch} 
                         img = {good.img}
                         title = {good.title}
                         dough = {good.dough}
