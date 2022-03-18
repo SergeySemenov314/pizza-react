@@ -6,6 +6,14 @@ const GoodsList = () => {
     const dispatch = useDispatch();
     const goodsArr = useSelector(state => state.goodsReducer.goods)
 
+    const cartGoods = useSelector(state => state.cartReducer.cartGoods)
+    const totalCount = useSelector(state => state.cartReducer.totalCount)
+    const totalPrice = useSelector(state => state.cartReducer.totalPrice)
+
+    console.log(cartGoods)
+    console.log(totalCount)
+    console.log(totalPrice)
+
     return (
         <>
             <h2 className="content__title">Все пиццы</h2>

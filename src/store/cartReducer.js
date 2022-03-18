@@ -1,3 +1,6 @@
+import { getCartTotalCount } from "../functions/getCartTotalCount";
+import { getCartTotalPrice } from "../functions/getCartTotalPrice";
+
 const defaultState  = {
     cartGoods: [],
     totalPrice: 0,
@@ -39,21 +42,9 @@ export default function cartReducer (state = defaultState, action) {
     
             localStorage.setItem('cartGoods', JSON.stringify(cartGoods));
 
-
-
             
-            let totalCount = cartGoods.reduce(function(sum, good) {
-                return sum + good.quantity;
-            }, 0);
-
-            let totalPrice = cartGoods.reduce(function(sum, good) {
-                return sum + good.price * good.quantity;
-            }, 0);
-
-
-
-
-
+            let totalPrice = getCartTotalPrice(cartGoods);
+            let totalCount = getCartTotalCount(cartGoods);
 
             return {
                 ...state,

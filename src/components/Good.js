@@ -1,7 +1,6 @@
 import {useState} from 'react';
 import PropTypes from 'prop-types';
 import { addToCart } from "../store/cartReducer";
-import { useSelector } from 'react-redux';
 
 const Good = ({dispatch, img, title, dough, sizes, price}) => {
 
@@ -34,15 +33,7 @@ const Good = ({dispatch, img, title, dough, sizes, price}) => {
         dispatch(addToCart(goodObj))
     }
 
-    const cartGoods = useSelector(state => state.cartReducer.cartGoods)
-    const totalCount = useSelector(state => state.cartReducer.totalCount)
-    const totalPrice = useSelector(state => state.cartReducer.totalPrice)
-
-    console.log(cartGoods)
-    console.log(totalCount)
-    console.log(totalPrice)
-
-
+   
     return (
         <div className="pizza-block">
             <img className="pizza-block__image"
