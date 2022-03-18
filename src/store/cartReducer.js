@@ -8,18 +8,31 @@ const defaultState  = {
 }
 
 export const ADD_TO_CART = 'ADD_TO_CART';
+export const LOAD_GOODS_FROM_LOCALSTORAGE = 'LOAD_GOODS_FROM_LOCALSTORAGE';
 
 export default function cartReducer (state = defaultState, action) {
     switch (action.type) {
+        case LOAD_GOODS_FROM_LOCALSTORAGE:
+
+            const cartGoodsJSON = localStorage.getItem('cartGoods');
+            const cartGoodsArr = JSON.parse(cartGoodsJSON);
+
+            let totalPriceInitial = getCartTotalPrice(cartGoodsArr);
+            let totalCountInitial = getCartTotalCount(cartGoodsArr);
+
+            return {
+                ...state,
+                cartGoods: cartGoodsArr,
+                totalCount: totalCountInitial,
+                totalPrice: totalPriceInitial,
+            }
+
         case ADD_TO_CART:
 
             let goodObj = action.payload;
-            let cartGoods = [];
-
-            const cartGoodsJSON = localStorage.getItem('cartGoods');
+            let cartGoods = state.cartGoods;
     
-            if(cartGoodsJSON) {
-                cartGoods = JSON.parse(cartGoodsJSON);
+            if(cartGoods.length) {
                 let hasCurrentGood = {status: false, index: 0};
     
                 cartGoods.forEach((good, index) => {
@@ -42,7 +55,7 @@ export default function cartReducer (state = defaultState, action) {
     
             localStorage.setItem('cartGoods', JSON.stringify(cartGoods));
 
-            
+
             let totalPrice = getCartTotalPrice(cartGoods);
             let totalCount = getCartTotalCount(cartGoods);
 
@@ -59,4 +72,5 @@ export default function cartReducer (state = defaultState, action) {
 }
 
 export const addToCart = (payload) => ({type: ADD_TO_CART, payload})
+export const loadGoodsFromLocalStorage = () => ({type: LOAD_GOODS_FROM_LOCALSTORAGE})
 
