@@ -1,7 +1,7 @@
 
 export const getCartTotalPrice = (cartGoods) => {
 
-    if(cartGoods.length) {
+    if(cartGoods) {
         let totalPrice = cartGoods.reduce(function(sum, good) {
             return sum + good.price * good.quantity;
         }, 0);

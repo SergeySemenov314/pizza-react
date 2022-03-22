@@ -14,11 +14,18 @@ export default function cartReducer (state = defaultState, action) {
     switch (action.type) {
         case LOAD_GOODS_FROM_LOCALSTORAGE:
 
-            const cartGoodsJSON = localStorage.getItem('cartGoods');
-            const cartGoodsArr = JSON.parse(cartGoodsJSON);
+            let cartGoodsArr = [];
+            let totalPriceInitial = 0;
+            let totalCountInitial = 0;
 
-            let totalPriceInitial = getCartTotalPrice(cartGoodsArr);
-            let totalCountInitial = getCartTotalCount(cartGoodsArr);
+            const cartGoodsJSON = localStorage.getItem('cartGoods');
+
+            if(cartGoodsJSON) {
+                cartGoodsArr = JSON.parse(cartGoodsJSON);
+                totalPriceInitial = getCartTotalPrice(cartGoodsArr);
+                totalCountInitial = getCartTotalCount(cartGoodsArr);
+            }
+           
 
             return {
                 ...state,
