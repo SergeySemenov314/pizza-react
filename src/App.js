@@ -5,6 +5,7 @@ import { setGoods } from './store/goodsReducer';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { loadGoodsFromLocalStorage } from './store/cartReducer';
+import CartPage from './pages/CartPage';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const App = () => {
     
   return (
     <MainPage/>
+    // <CartPage/>
   );
 }
 
