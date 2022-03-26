@@ -71,7 +71,7 @@ const Good = ({dispatch, img, title, dough, sizes, price}) => {
                             fill="white" />
                     </svg>
                     <span>Добавить</span>
-                    <i>2</i>
+                    {/* <i>2</i> */}
                 </div>
             </div>
         </div>

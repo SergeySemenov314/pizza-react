@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import logoSvg from '../images/pizza-logo.svg'
+import { NavLink } from 'react-router-dom';
 
 const Header = () => {
 
@@ -15,9 +16,10 @@ const Header = () => {
                     <h1>React Pizza</h1>
                     <p>самая вкусная пицца во вселенной</p>
                 </div>
-            </div>
+              </div>
+        
             <div className="header__cart">
-                <a href="/cart.html" className="button button--cart">
+                <NavLink to = '/cart' className="button button--cart">
                     <span>{totalPrice} ₽</span>
                     <div className="button__delimiter"></div>
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,7 +34,7 @@ const Header = () => {
                             stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     <span>{totalCount}</span>
-                </a>
+                </NavLink>
             </div>
         </div>
     </div>
