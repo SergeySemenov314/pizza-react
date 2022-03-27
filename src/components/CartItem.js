@@ -1,4 +1,6 @@
-const CartItem = ({ cartGood }) => {
+import { removeFromCart } from "../store/cartReducer"
+
+const CartItem = ({ cartGood, dispatch }) => {
     
     let img = cartGood.img
     let title = cartGood.title
@@ -8,6 +10,11 @@ const CartItem = ({ cartGood }) => {
     let quantity = cartGood.quantity
 
     let goodTotalPrice = price * quantity;
+
+    let clickMinus = (evt) => {
+        dispatch(removeFromCart(cartGood))
+
+    }
 
     return (
         <div className="cart__item">
@@ -23,7 +30,7 @@ const CartItem = ({ cartGood }) => {
                 <p>{dough}, {sizes} см.</p>
             </div>
             <div className="cart__item-count">
-                <div className="button button--outline button--circle cart__item-count-minus">
+                <div className="button button--outline button--circle cart__item-count-minus" onClick = {clickMinus}>
                     <svg
                         width="10"
                         height="10"
