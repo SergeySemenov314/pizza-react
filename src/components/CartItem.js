@@ -1,4 +1,4 @@
-import { addToCart, removeFromCart } from "../store/cartReducer"
+import { addToCart, removeFromCart, removeGoodCompletelyFromCart } from "../store/cartReducer"
 
 const CartItem = ({ cartGood, dispatch }) => {
     
@@ -18,6 +18,13 @@ const CartItem = ({ cartGood, dispatch }) => {
     let clickPlus = (evt) => {
         dispatch(addToCart(cartGood))
     }
+
+    let clickDelete = (evt) => {
+        dispatch(removeGoodCompletelyFromCart(cartGood))
+    }
+
+
+    
 
     return (
         <div className="cart__item">
@@ -73,7 +80,7 @@ const CartItem = ({ cartGood, dispatch }) => {
                 <b>{goodTotalPrice} ₽</b>
             </div>
             <div className="cart__item-remove">
-                <div className="button button--outline button--circle">
+                <div className="button button--outline button--circle" onClick = {clickDelete} >
                     <svg
                         width="10"
                         height="10"

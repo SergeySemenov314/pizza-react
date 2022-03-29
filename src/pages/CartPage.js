@@ -1,9 +1,19 @@
 
 
+import { useDispatch } from "react-redux"
 import CartBottom from "../components/CartBottom"
 import CartItemsList from "../components/CartItemsList"
+import { removeAllGoodsFromCart } from "../store/cartReducer"
 
 const CartPage = () => {
+
+    const dispatch = useDispatch()
+
+    const clickClearCart = () => {
+        dispatch(removeAllGoodsFromCart())
+    }
+
+
     return (
         <div className="content">
             <div className="container container--cart">
@@ -40,7 +50,7 @@ const CartPage = () => {
                             </svg>
                             Корзина
                         </h2>
-                        <div className="cart__clear">
+                        <div className="cart__clear" onClick={clickClearCart}>
                             <svg
                                 width="20"
                                 height="20"

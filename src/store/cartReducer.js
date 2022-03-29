@@ -10,6 +10,8 @@ const defaultState = {
 
 export const ADD_TO_CART = "ADD_TO_CART"
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART"
+export const REMOVE_GOOD_COMPLETELY_FROM_CART = "REMOVE_GOOD_COMPLETELY_FROM_CART"
+export const REMOVE_ALL_GOODS_FROM_CART = "REMOVE_ALL_GOODS"
 export const LOAD_GOODS_FROM_LOCALSTORAGE = "LOAD_GOODS_FROM_LOCALSTORAGE"
 
 export default function cartReducer(state = defaultState, action) {
@@ -90,6 +92,44 @@ export default function cartReducer(state = defaultState, action) {
                 totalCount: totalCount2,
                 totalPrice: totalPrice2,
             }
+
+        case REMOVE_GOOD_COMPLETELY_FROM_CART:
+
+            let goodObj3 = action.payload
+            let cartGoods3 = state.cartGoods
+
+            if (cartGoods3.length) {
+                let hasCurrentGood = findGoodInCart(cartGoods3, goodObj3)
+
+                if (hasCurrentGood.status) {
+                    cartGoods3.splice([hasCurrentGood.index], 1); 
+                }
+            }
+
+            localStorage.setItem("cartGoods", JSON.stringify(cartGoods3))
+
+            let totalPrice3 = getCartTotalPrice(cartGoods3)
+            let totalCount3 = getCartTotalCount(cartGoods3)
+
+            return {
+                ...state,
+                cartGoods: cartGoods3,
+                totalCount: totalCount3,
+                totalPrice: totalPrice3,
+            }
+
+        case REMOVE_ALL_GOODS_FROM_CART:
+
+            localStorage.setItem("cartGoods", JSON.stringify([]))
+
+            return {
+                ...state,
+                cartGoods: [],
+                totalCount: 0,
+                totalPrice: 0,
+            }
+
+            
         
         default:
             return state
@@ -98,4 +138,6 @@ export default function cartReducer(state = defaultState, action) {
 
 export const addToCart = (payload) => ({ type: ADD_TO_CART, payload })
 export const removeFromCart = (payload) => ({ type: REMOVE_FROM_CART, payload })
+export const removeGoodCompletelyFromCart = (payload) => ({ type: REMOVE_GOOD_COMPLETELY_FROM_CART, payload })
+export const removeAllGoodsFromCart = () => ({ type: REMOVE_ALL_GOODS_FROM_CART})
 export const loadGoodsFromLocalStorage = () => ({ type: LOAD_GOODS_FROM_LOCALSTORAGE })

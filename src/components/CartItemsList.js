@@ -9,8 +9,8 @@ const CartItemsList = () => {
 
     return (
         <div className="content__items">
-            {cartGoods.map((cartGood) => (
-                <CartItem cartGood={cartGood} dispatch={dispatch} />
+            {cartGoods.map((cartGood, index) => (
+                <CartItem key = {cartGood.title + cartGood.dough + cartGood.sizes} cartGood={cartGood} dispatch={dispatch} />
             ))}
         </div>
     )
