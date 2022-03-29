@@ -1,4 +1,4 @@
-import { removeFromCart } from "../store/cartReducer"
+import { addToCart, removeFromCart } from "../store/cartReducer"
 
 const CartItem = ({ cartGood, dispatch }) => {
     
@@ -13,7 +13,10 @@ const CartItem = ({ cartGood, dispatch }) => {
 
     let clickMinus = (evt) => {
         dispatch(removeFromCart(cartGood))
+    }
 
+    let clickPlus = (evt) => {
+        dispatch(addToCart(cartGood))
     }
 
     return (
@@ -48,7 +51,7 @@ const CartItem = ({ cartGood, dispatch }) => {
                     </svg>
                 </div>
                 <b>{quantity}</b>
-                <div className="button button--outline button--circle cart__item-count-plus">
+                <div className="button button--outline button--circle cart__item-count-plus" onClick = {clickPlus}>
                     <svg
                         width="10"
                         height="10"
