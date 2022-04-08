@@ -14,127 +14,130 @@ export const REMOVE_GOOD_COMPLETELY_FROM_CART = "REMOVE_GOOD_COMPLETELY_FROM_CAR
 export const REMOVE_ALL_GOODS_FROM_CART = "REMOVE_ALL_GOODS"
 export const LOAD_GOODS_FROM_LOCALSTORAGE = "LOAD_GOODS_FROM_LOCALSTORAGE"
 
-export default function cartReducer(state = defaultState, action) {
-    switch (action.type) {
-        case LOAD_GOODS_FROM_LOCALSTORAGE:
-            let cartGoodsArr = []
-            let totalPriceInitial = 0
-            let totalCountInitial = 0
+const actionMap = {
+    LOAD_GOODS_FROM_LOCALSTORAGE: (state, action) => {
+        let cartGoodsArr = []
+        let totalPriceInitial = 0
+        let totalCountInitial = 0
 
-            const cartGoodsJSON = localStorage.getItem("cartGoods")
+        const cartGoodsJSON = localStorage.getItem("cartGoods")
 
-            if (cartGoodsJSON) {
-                cartGoodsArr = JSON.parse(cartGoodsJSON)
-                totalPriceInitial = getCartTotalPrice(cartGoodsArr)
-                totalCountInitial = getCartTotalCount(cartGoodsArr)
-            }
+        if (cartGoodsJSON) {
+            cartGoodsArr = JSON.parse(cartGoodsJSON)
+            totalPriceInitial = getCartTotalPrice(cartGoodsArr)
+            totalCountInitial = getCartTotalCount(cartGoodsArr)
+        }
 
-            return {
-                ...state,
-                cartGoods: cartGoodsArr,
-                totalCount: totalCountInitial,
-                totalPrice: totalPriceInitial,
-            }
+        return {
+            ...state,
+            cartGoods: cartGoodsArr,
+            totalCount: totalCountInitial,
+            totalPrice: totalPriceInitial,
+        }
+    },
 
-        case ADD_TO_CART:
-            let goodObj = action.payload
-            let cartGoods = state.cartGoods
+    ADD_TO_CART: (state, action) => {
+        let goodObj = action.payload
+        let cartGoods = state.cartGoods
 
-            if (cartGoods.length) {
-                let hasCurrentGood = findGoodInCart(cartGoods, goodObj)
+        if (cartGoods.length) {
+            let hasCurrentGood = findGoodInCart(cartGoods, goodObj)
 
-                if (hasCurrentGood.status) {
-                    cartGoods[hasCurrentGood.index]["quantity"]++
-                } else {
-                    cartGoods.push(goodObj)
-                }
+            if (hasCurrentGood.status) {
+                cartGoods[hasCurrentGood.index]["quantity"]++
             } else {
                 cartGoods.push(goodObj)
             }
+        } else {
+            cartGoods.push(goodObj)
+        }
 
-            localStorage.setItem("cartGoods", JSON.stringify(cartGoods))
+        localStorage.setItem("cartGoods", JSON.stringify(cartGoods))
 
-            let totalPrice = getCartTotalPrice(cartGoods)
-            let totalCount = getCartTotalCount(cartGoods)
+        let totalPrice = getCartTotalPrice(cartGoods)
+        let totalCount = getCartTotalCount(cartGoods)
 
-            return {
-                ...state,
-                cartGoods: cartGoods,
-                totalCount: totalCount,
-                totalPrice: totalPrice,
-            }
-        
-        case REMOVE_FROM_CART:
-            let goodObj2 = action.payload
-            let cartGoods2 = state.cartGoods
+        return {
+            ...state,
+            cartGoods: cartGoods,
+            totalCount: totalCount,
+            totalPrice: totalPrice,
+        }
+    },
 
-            if (cartGoods2.length) {
-                let hasCurrentGood = findGoodInCart(cartGoods2, goodObj2)
+    REMOVE_FROM_CART: (state, action) => {
+        let goodObj = action.payload
+        let cartGoods = state.cartGoods
 
-                if (hasCurrentGood.status) {
+        if (cartGoods.length) {
+            let hasCurrentGood = findGoodInCart(cartGoods, goodObj)
 
-                    if (cartGoods2[hasCurrentGood.index]["quantity"] > 1) {
-                        cartGoods2[hasCurrentGood.index]["quantity"]--
-                    } else {
-                        cartGoods2.splice([hasCurrentGood.index], 1); 
-                    }
+            if (hasCurrentGood.status) {
+
+                if (cartGoods[hasCurrentGood.index]["quantity"] > 1) {
+                    cartGoods[hasCurrentGood.index]["quantity"]--
+                } else {
+                    cartGoods.splice([hasCurrentGood.index], 1); 
                 }
             }
+        }
 
-            localStorage.setItem("cartGoods", JSON.stringify(cartGoods2))
+        localStorage.setItem("cartGoods", JSON.stringify(cartGoods))
 
-            let totalPrice2 = getCartTotalPrice(cartGoods2)
-            let totalCount2 = getCartTotalCount(cartGoods2)
+        let totalPrice2 = getCartTotalPrice(cartGoods)
+        let totalCount2 = getCartTotalCount(cartGoods)
 
-            return {
-                ...state,
-                cartGoods: cartGoods2,
-                totalCount: totalCount2,
-                totalPrice: totalPrice2,
+        return {
+            ...state,
+            cartGoods: cartGoods,
+            totalCount: totalCount2,
+            totalPrice: totalPrice2,
+        }
+    },
+
+    REMOVE_GOOD_COMPLETELY_FROM_CART: (state, action) => {
+        let goodObj = action.payload
+        let cartGoods = state.cartGoods
+
+        if (cartGoods.length) {
+            let hasCurrentGood = findGoodInCart(cartGoods, goodObj)
+
+            if (hasCurrentGood.status) {
+                cartGoods.splice([hasCurrentGood.index], 1); 
             }
+        }
 
-        case REMOVE_GOOD_COMPLETELY_FROM_CART:
+        localStorage.setItem("cartGoods", JSON.stringify(cartGoods))
 
-            let goodObj3 = action.payload
-            let cartGoods3 = state.cartGoods
+        let totalPrice = getCartTotalPrice(cartGoods)
+        let totalCount = getCartTotalCount(cartGoods)
 
-            if (cartGoods3.length) {
-                let hasCurrentGood = findGoodInCart(cartGoods3, goodObj3)
+        return {
+            ...state,
+            cartGoods: cartGoods,
+            totalCount: totalCount,
+            totalPrice: totalPrice,
+        }
+    },
 
-                if (hasCurrentGood.status) {
-                    cartGoods3.splice([hasCurrentGood.index], 1); 
-                }
-            }
+    REMOVE_ALL_GOODS_FROM_CART: (state, action) => {
+        localStorage.setItem("cartGoods", JSON.stringify([]))
 
-            localStorage.setItem("cartGoods", JSON.stringify(cartGoods3))
+        return {
+            ...state,
+            cartGoods: [],
+            totalCount: 0,
+            totalPrice: 0,
+        }
+    },
 
-            let totalPrice3 = getCartTotalPrice(cartGoods3)
-            let totalCount3 = getCartTotalCount(cartGoods3)
-
-            return {
-                ...state,
-                cartGoods: cartGoods3,
-                totalCount: totalCount3,
-                totalPrice: totalPrice3,
-            }
-
-        case REMOVE_ALL_GOODS_FROM_CART:
-
-            localStorage.setItem("cartGoods", JSON.stringify([]))
-
-            return {
-                ...state,
-                cartGoods: [],
-                totalCount: 0,
-                totalPrice: 0,
-            }
-
-            
-        
-        default:
-            return state
-    }
 }
+
+export default function cartReducer (state  = defaultState, action) {
+    const handler = actionMap[action.type]
+    return handler ? handler(state, action) : state
+}
+
 
 export const addToCart = (payload) => ({ type: ADD_TO_CART, payload })
 export const removeFromCart = (payload) => ({ type: REMOVE_FROM_CART, payload })
