@@ -2,7 +2,8 @@ import { useDispatch, useSelector } from "react-redux"
 import CartItem from "./CartItem"
 
 const CartItemsList = () => {
-    const cartGoods = useSelector((state) => state.cartReducer.cartGoods)
+    const {cartGoods} = useSelector(({cartReducer}) => cartReducer)
+    
     const dispatch = useDispatch()
 
     // console.log(cartGoods)

@@ -5,6 +5,7 @@ import CartBottom from "../components/CartBottom"
 import CartItemsList from "../components/CartItemsList"
 import { removeAllGoodsFromCart } from "../store/cartReducer"
 
+
 const CartPage = () => {
 
     const dispatch = useDispatch()
