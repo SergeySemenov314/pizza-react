@@ -6,6 +6,9 @@
 
     svg {
       margin-right: 8px;
+      &.active {
+          transform: rotate(180deg);
+      }
     }
 
     b {
@@ -48,4 +51,8 @@
       }
     }
   }
+}
+
+.sort__label {
+    cursor: pointer;
 }
